@@ -31,11 +31,13 @@ class DiskCacheStore extends ICacheStore {
       }
       await Directory(path).create(recursive: true);
       path = join(path, "$_databaseName.db");
-      _db = await openDatabase(path,
-          version: _curDBVersion,
-          onConfigure: (db) => _tryFixDbNoVersionBug(db, path!),
-          onCreate: _onCreate,
-          onUpgrade: _onUpgrade);
+      _db = await openDatabase(
+        path,
+        version: _curDBVersion,
+        onConfigure: (db) => _tryFixDbNoVersionBug(db, path!),
+        onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
+      );
       await _clearExpired(_db);
     }
     return _db;
